@@ -5,13 +5,18 @@ exports.handler = async (event) => {
   const { ChatGPTAPI } = await import("chatgpt");
   const api = new ChatGPTAPI({
     apiKey: process.env.GPT_API,
-    
-    completionParams: {},
+
+    /*
+    completionParams: {
+      model: 'gpt-3.5-turbo',
+    },
+    */
   })
   const uuid = v4();
-  let res = await api.sendMessage('What is a pokemon?');
-  return {
-    "id": uuid,
-    "response": res,
-  };
+  await api.sendMessage('What is a pokemon?').then((res) => {
+    console.log({
+      "id": uuid,
+      "response": res,
+    });
+  });
 }
